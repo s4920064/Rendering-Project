@@ -36,7 +36,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = dof1.0.0
-DISTDIR = /home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/dof/obj/dof1.0.0
+DISTDIR = /home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/dof/obj/dof1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/s4920064/NGL/lib -Wl,-z,origin -Wl,-rpath,\$$ORIGIN/L/home/s4920064/NGL/lib -Wl,-rpath,/home/s4920064/NGL/lib -Wl,-rpath,/opt/Qt5.9.0/5.9/gcc_64/lib
 LIBS          = $(SUBLIBS) -lglfw -lGLEW -lGLU /public/devel/noise/lib/libnoise.a -L/usr/local/lib -L/home/s4920064/NGL/lib -l NGL -L/opt/Qt5.9.0/5.9/gcc_64/lib -lQt5OpenGL -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -61,10 +61,7 @@ OBJECTS       = obj/main.o \
 		obj/scene.o \
 		obj/camera.o \
 		obj/trackballcamera.o
-DIST          = shaders/dof_frag.glsl \
-		shaders/dof_vert.glsl \
-		../common/shaders/gouraud_frag.glsl \
-		../common/shaders/gouraud_vert.glsl \
+DIST          = .qmake.stash \
 		dof.pro src/dofscene.h \
 		../common/include/scene.h \
 		../common/include/camera.h \
@@ -245,11 +242,12 @@ Makefile: dof.pro .qmake.cache /opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-g++/qmake.c
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_post.prf \
 		.qmake.cache \
+		.qmake.stash \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/toolchain.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/default_pre.prf \
 		/home/s4920064/NGL/UseNGL.pri \
-		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/common.pri \
+		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/common.pri \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/resolve_config.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/default_post.prf \
 		/opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/warn_on.prf \
@@ -432,11 +430,12 @@ Makefile: dof.pro .qmake.cache /opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-g++/qmake.c
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/linux-g++/qmake.conf:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/spec_post.prf:
 .qmake.cache:
+.qmake.stash:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/exclusive_builds.prf:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/toolchain.prf:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/default_pre.prf:
 /home/s4920064/NGL/UseNGL.pri:
-/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/common.pri:
+/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/common.pri:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/resolve_config.prf:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/default_post.prf:
 /opt/Qt5.9.0/5.9/gcc_64/mkspecs/features/warn_on.prf:
@@ -523,7 +522,7 @@ compiler_clean: compiler_moc_predefs_clean
 
 obj/main.o: src/main.cpp src/dofscene.h \
 		../common/include/scene.h \
-		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/include/glinclude.h \
+		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/include/glinclude.h \
 		/home/s4920064/NGL/include/ngl/Obj.h \
 		/home/s4920064/NGL/include/ngl/Types.h \
 		/home/s4920064/NGL/include/ngl/glew.h \
@@ -652,14 +651,14 @@ obj/main.o: src/main.cpp src/dofscene.h \
 		/home/s4920064/NGL/include/ngl/RibExport.h \
 		/home/s4920064/NGL/include/ngl/NGLassert.h \
 		../common/include/firstpersoncamera.h \
-		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/include/camera.h \
+		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/include/camera.h \
 		../common/include/trackballcamera.h \
 		../common/include/fixedcamera.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/main.o src/main.cpp
 
 obj/dofscene.o: src/dofscene.cpp src/dofscene.h \
 		../common/include/scene.h \
-		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/include/glinclude.h \
+		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/include/glinclude.h \
 		/home/s4920064/NGL/include/ngl/Obj.h \
 		/home/s4920064/NGL/include/ngl/Types.h \
 		/home/s4920064/NGL/include/ngl/glew.h \
@@ -799,14 +798,14 @@ obj/dofscene.o: src/dofscene.cpp src/dofscene.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/dofscene.o src/dofscene.cpp
 
 obj/scene.o: ../common/src/scene.cpp ../common/include/scene.h \
-		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/include/glinclude.h
+		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/include/glinclude.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/scene.o ../common/src/scene.cpp
 
-obj/camera.o: ../common/src/camera.cpp /home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/include/camera.h
+obj/camera.o: ../common/src/camera.cpp /home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/include/camera.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/camera.o ../common/src/camera.cpp
 
 obj/trackballcamera.o: ../common/src/trackballcamera.cpp ../common/include/trackballcamera.h \
-		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Workshops/rendering_examples/common/include/camera.h
+		/home/s4920064/BU\ Year\ 2/Rendering/Term\ 2/Project/common/include/camera.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obj/trackballcamera.o ../common/src/trackballcamera.cpp
 
 ####### Install

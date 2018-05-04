@@ -19,10 +19,6 @@ HEADERS += src/dofscene.h \
 
 OTHER_FILES += shaders/*.glsl
 
-DISTFILES += \
-	     shaders/dof_frag.glsl \
-             shaders/dof_vert.glsl \
-             ../common/shaders/gouraud_frag.glsl \
-             ../common/shaders/gouraud_vert.glsl
+##DISTFILES +=
 	
 	

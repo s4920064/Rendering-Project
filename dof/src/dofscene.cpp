@@ -42,8 +42,8 @@ void DofScene::initGL() noexcept {
 
     // Create the basic shader used to render the scene with Gouraud shading
     shader->loadShader("GouraudProgram",              // Name of program
-                       "../common/shaders/gouraud_vert.glsl",   // Vertex shader
-                       "../common/shaders/gouraud_frag.glsl");  // Fragment shader
+                       "shaders/gouraud_vert.glsl",   // Vertex shader
+                       "shaders/gouraud_frag.glsl");  // Fragment shader
 
     // Create the depth of field shader program, which combines pixels in the fragment shader
     shader->loadShader("DofProgram",                // Name of program
@@ -154,47 +154,39 @@ void DofScene::paintGL() noexcept {
     // Grab and instance of the VAO primitives path
     ngl::VAOPrimitives *prim=ngl::VAOPrimitives::instance();
 
-    // Needed for colour cycling
-//    float colourStep = 1.0f / float(m_numObjects);
+    // *** Set the color of the object
     glm::vec3 rgb = glm::vec3(1.0f, 0.5f, 0.3f);  //hsv, rgb;
 
     // Store the program id
     GLint pid = shader->getProgramID("GouraudProgram");
 
-//    int i;
-//    for (i=0; i<m_numObjects; ++i) {
-//        // Calculate colour by cycling in HSV colour space
-//        hsv = glm::vec3(float(i) * colourStep, 1.0f, 1.0f);
-//        hsv2rgb(rgb, hsv);
+    // *** Set the object's position
+    glm::mat4 M = glm::mat4(1.0f);
 
-        // Translate in depth and x to get a cascade effect
-        glm::mat4 M = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+    // Note the matrix multiplication order as we are in COLUMN MAJOR storage
+    MVP = m_P * m_V * M;
+    MV = m_V * M;
+    N = glm::inverse(glm::mat3(MV));
 
-        // Note the matrix multiplication order as we are in COLUMN MAJOR storage
-        MVP = m_P * m_V * M;
-        MV = m_V * M;
-        N = glm::inverse(glm::mat3(MV));
+    // Set this MVP on the GPU
+    glUniformMatrix4fv(glGetUniformLocation(pid, "MVP"), //location of uniform
+                       1, // how many matrices to transfer
+                       false, // whether to transpose matrix
+                       glm::value_ptr(MVP)); // a raw pointer to the data
+    glUniformMatrix4fv(glGetUniformLocation(pid, "MV"), //location of uniform
+                       1, // how many matrices to transfer
+                       false, // whether to transpose matrix
+                       glm::value_ptr(MV)); // a raw pointer to the data
+    glUniformMatrix3fv(glGetUniformLocation(pid, "N"), //location of uniform
+                       1, // how many matrices to transfer
+                       true, // whether to transpose matrix
+                       glm::value_ptr(N)); // a raw pointer to the data
 
-        // Set this MVP on the GPU
-        glUniformMatrix4fv(glGetUniformLocation(pid, "MVP"), //location of uniform
-                           1, // how many matrices to transfer
-                           false, // whether to transpose matrix
-                           glm::value_ptr(MVP)); // a raw pointer to the data
-        glUniformMatrix4fv(glGetUniformLocation(pid, "MV"), //location of uniform
-                           1, // how many matrices to transfer
-                           false, // whether to transpose matrix
-                           glm::value_ptr(MV)); // a raw pointer to the data
-        glUniformMatrix3fv(glGetUniformLocation(pid, "N"), //location of uniform
-                           1, // how many matrices to transfer
-                           true, // whether to transpose matrix
-                           glm::value_ptr(N)); // a raw pointer to the data
+    glUniform3fv(glGetUniformLocation(pid, "Material.Kd"), 1, glm::value_ptr(rgb));
 
-        glUniform3fv(glGetUniformLocation(pid, "Material.Kd"), 1, glm::value_ptr(rgb));
+    // Draw a teapot primitive
+    prim->draw("teapot");
 
-        // Draw a teapot primitive
-        prim->draw("teapot");
-
-//    }
     // Unbind our FBO
     glBindFramebuffer(GL_FRAMEBUFFER,0);
 
